@@ -1,0 +1,66 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>ToDo App</title>
+
+		<link href="https://fonts.googleapis.com/css?family=Oswald" rel="stylesheet">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <link rel="stylesheet" href="{% static 'todo/styles.css' %}" />
+
+        <script>
+  $(function() {
+    $( ".datepicker" ).datepicker({
+      changeMonth: true,
+      changeYear: true,
+      yearRange: "1900:2012",
+      // You can put more options here.
+
+    });
+  });
+  </script>
+	</head>
+	<body>
+		<div class="container-fluid" id="wrapper">
+
+			<div class="row">
+				<div class="col-lg-4 col-lg-offset-4" id="content">
+					<h2> {{ username }} </h2>
+
+                    <ul class="list-group t20">
+                        {% for i in all_events %}
+                            <li class="list-group-item">
+                            {% if i.is_completed %}
+                                <label>Event: </label><del>{{ i.events }}</del>
+                            {% else %}
+                                 <label>Event: </label>{{ i.events }}
+                            {% endif %}
+                                  <label>Time: </label>{{ i.event_time }}
+                                  <label>Sms: </label>{{ i.sms_time }}
+                                  <a href="delete/{{ i.id }}/"><button type="button" class="btn btn-warning"> <i class="glyphicon glyphicon-trash"></i> DELETE </button></a></li>
+                        {% endfor %}
+                    </ul>
+				</div>
+
+
+
+				<div class="col-lg-4 col-lg-offset-4" id="content">
+                        <h2>  New Event </h2>
+                        <form action="add/" method="post" class="form-inline">
+                            {% csrf_token %}
+
+                            {{ form.as_p }}
+
+                        <button type="submit" class="btn btn-submit"> Add </button></a></li>
+                        </form>
+                    </div>
+		    </div>
+            <a href="/logout"><button type="button" class="btn "> <i class="glyphicon glyphicon-logout"></i> logout </button></a></li>
+        </div>
+	</body>
+</html>
